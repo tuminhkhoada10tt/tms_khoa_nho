@@ -1,4 +1,4 @@
-CakePHP
+Hệ thống quản lý công tác tập huấn giáo viên
 =======
 
 [![CakePHP](http://cakephp.org/img/cake-logo.png)](http://www.cakephp.org)
