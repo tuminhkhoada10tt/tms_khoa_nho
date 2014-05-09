@@ -3,7 +3,6 @@
 App::uses('Controller', 'Controller');
 
 class AppController extends Controller {
-
     public $components = array(
         'Session', 'RequestHandler',
         'DebugKit.Toolbar',
@@ -26,12 +25,13 @@ class AppController extends Controller {
     public function beforeRender() {
         parent::beforeRender();
         if ($this->Auth->loggedIn()) {
-            if ($this->Session->check('layout'))
+            if ($this->Session->check('layout')&&!$this->request->is('ajax'))
                 $this->layout = $this->Session->read('layout');
         }
     }
 
     function beforeFilter() {
+        
         if (in_array($this->action, array('home', 'login'))) {
             $this->Auth->allow($this->action);
         }

@@ -1,6 +1,5 @@
 Hệ thống quản lý công tác tập huấn giáo viên
 =======
-Toàn add
 [![CakePHP](http://cakephp.org/img/cake-logo.png)](http://www.cakephp.org)
 
 CakePHP is a rapid development framework for PHP which uses commonly known design patterns like Active Record, Association Data Mapping, Front Controller and MVC.

@@ -11,10 +11,40 @@ Router::connect('/', array('controller' => 'dashboards', 'action' => 'home'));
  */
 Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
 
+Router::connect(
+    '/admin',
+    array('controller' => 'dashboards', 'action' => 'home', 'admin' => true)
+);
+Router::connect(
+    '/teacher',
+    array('controller' => 'dashboards', 'action' => 'home', 'teacher' => true)
+);
+
+Router::connect(
+    '/student',
+    array('controller' => 'dashboards', 'action' => 'home', 'student' => true)
+);
+
+Router::connect(
+    '/boss',
+    array('controller' => 'dashboards', 'action' => 'home', 'boss' => true)
+);
+Router::connect(
+    '/manager',
+    array('controller' => 'dashboards', 'action' => 'home', 'manager' => true)
+);
+Router::connect(
+    '/fields_manager',
+    array('controller' => 'dashboards', 'action' => 'home', 'fields_manager' => true)
+);
+
+
 /**
  * Load all plugin routes. See the CakePlugin documentation on
  * how to customize the loading of plugin routes.
  */
+
+
 Router::parseExtensions('json');
 
 CakePlugin::routes();

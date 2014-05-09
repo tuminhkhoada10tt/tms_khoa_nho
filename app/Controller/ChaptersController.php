@@ -29,24 +29,59 @@ class ChaptersController extends AppController {
     }
 
     public function search() {
-        
+
         if ($this->request->is('ajax')) {
             // Use data from serialized form
             $chapter_name = $this->request->data['chapter_name'];
             $this->Paginator->settings = array(
                 'conditions' => array(
                     'Chapter.created_user_id' => $this->Auth->user('id'),
-                    'Chapter.name like '=>'%'.$chapter_name.'%'
-                    ));
+                    'Chapter.name like ' => '%' . $chapter_name . '%'
+            ));
             $this->set('chapters', $this->Paginator->paginate());
             $this->render('search_results', 'ajax'); // Render the contact-ajax-response view in the ajax layout
         }
     }
 
     public function fields_manager_index() {
-        $this->Paginator->settings = array('conditions' => array('Chapter.created_user_id' => $this->Auth->user('id')));
+        $contain = array('CreatedUser' => array('fields' => array('id', 'name')), 'Field');
+        $this->Paginator->settings = array('conditions' => array('Chapter.created_user_id' => $this->Auth->user('id')), 'contain' => $contain);
         $this->set('chapters', $this->Paginator->paginate());
     }
+
+    public function fields_manager_view($id) {
+        if (!$this->Chapter->exists($id)) {
+            throw new NotFoundException(__('Invalid chapter'));
+        }
+        $contain = array('CreatedUser' => array('fields' => array('id', 'name')), 'Field');
+        $options = array('conditions' => array('Chapter.' . $this->Chapter->primaryKey => $id),'contain'=>$contain);
+        $this->set('chapter', $this->Chapter->find('first', $options));
+    }
+
+    public function fields_manager_add() {
+        if ($this->request->is('post')) {
+            $this->Chapter->create();
+            $this->request->data['Chapter']['created_user_id'] = $this->Auth->user('id');
+            if ($this->Chapter->save($this->request->data)) {
+                $this->Session->setFlash('Thêm chuyên đề thành công', 'alert', array('plugin' => 'BoostCake', 'class' => 'alert-success'));
+                return $this->redirect(array('action' => 'index'));
+            }
+        }
+        $fields = $this->Chapter->Field->find('list');
+        $this->set(compact('fields'));
+    }
+    
+    /*Teacher com*/
+
+    public function teacher_view() {
+        if (!$this->Chapter->exists($id)) {
+            throw new NotFoundException(__('Invalid chapter'));
+        }
+        $contain = array('CreatedUser' => array('fields' => array('id', 'name')), 'Field');
+        $options = array('conditions' => array('Chapter.' . $this->Chapter->primaryKey => $id),'contain'=>$contain);
+        $this->set('chapter', $this->Chapter->find('first', $options));
+    }
+
 
     /**
      * view method
@@ -59,7 +94,8 @@ class ChaptersController extends AppController {
         if (!$this->Chapter->exists($id)) {
             throw new NotFoundException(__('Invalid chapter'));
         }
-        $options = array('conditions' => array('Chapter.' . $this->Chapter->primaryKey => $id));
+        $contain = array('CreatedUser' => array('fields' => array('id', 'name')), 'Field');
+        $options = array('conditions' => array('Chapter.' . $this->Chapter->primaryKey => $id),'contain'=>$contain);
         $this->set('chapter', $this->Chapter->find('first', $options));
     }
 

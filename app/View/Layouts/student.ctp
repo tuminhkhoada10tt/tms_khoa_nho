@@ -3,7 +3,7 @@
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
 <!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->  
     <head>
-        <?php echo $this->element('Common/header_tag');?>
+        <?php echo $this->element('Common/header_tag'); ?>
 
     </head> 
 
@@ -20,22 +20,9 @@
             <div class="content container">
                 <div class="row cols-wrapper">
 
-                    <div class="col-md-8">
-                        <!-- WIDGET Thời khóa biểu hôm nay-->
-                        <?php echo $this->element('Widgets/student/today_schedule') ?>
-                        <!-- WIDGET CÁC KHÓA HỌC SẮP TỔ CHỨC-->
-                        <?php echo $this->element('Common/new_course') ?>
+                    <?php echo $this->Session->flash(); ?>
 
-
-                    </div>
-                    <div class="col-md-4">
-                        <div class="row">
-                            <!--WIDGET TIN TỨC - THÔNG BÁO-->
-                            <?php echo $this->element('Widgets/student/news')?>
-                            <!--WIDGET Thống kê-->
-                            <?php echo $this->element('Widgets/student/statistics')?>
-                        </div>
-                    </div> 
+                    <?php echo $this->fetch('content'); ?> 
 
                 </div><!--//cols-wrapper-->
 

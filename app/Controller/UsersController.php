@@ -70,7 +70,7 @@ class UsersController extends AppController {
         $groups = $this->User->Group->find('list');
         $this->set(compact('groups'));
     }
-
+/*Teacher*/
     public function index_teacher() {
         $teacher = $this->User->Group->find('all', array(
             'conditions' => array('Group.id' => $this->User->Group->getGroupIdByAlias('teacher')),
@@ -79,6 +79,7 @@ class UsersController extends AppController {
         $result = Set::classicExtract($teacher[0]['User'], '{n}.id');
         $this->Paginator->settings = array('conditions' => array('User.id' => $result, 'User.created_user_id' => $this->Auth->user('id')));
         $this->set('users', $this->Paginator->paginate());
+        $this->viewPath='Users/Teacher';
     }
 
     public function add_teacher() {
@@ -114,9 +115,11 @@ class UsersController extends AppController {
         $hocHams = $this->User->HocHam->find('list');
         $hocVis = $this->User->HocVi->find('list');
         $this->set(compact('hocHams', 'hocVis'));
+        $this->viewPath='Users/Teacher';
     }
 
     public function edit_teacher($id) {
+        
         if (!$this->User->exists($id)) {
             throw new NotFoundException('Không tồn tại người này');
         }
@@ -133,13 +136,24 @@ class UsersController extends AppController {
         }
         $hocHams = $this->User->HocHam->find('list');
         $hocVis = $this->User->HocVi->find('list');
-        $this->set(compact('groups'));
+        $this->set(compact('groups','hocHams','hocVis'));
+        $this->viewPath='Users/Teacher';
+    }
+
+    public function view_teacher($id){
+        if (!$this->User->exists($id)) {
+            throw new NotFoundException(__('Invalid user'));
+        }
+        $options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
+        $this->set('user', $this->User->find('first', $options));
+        $this->viewPath='Users/Teacher';
     }
 
     public function search_teacher() {
         
     }
-
+/*end teacher*/
+    
     /**
      * edit method
      *

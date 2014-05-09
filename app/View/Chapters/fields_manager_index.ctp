@@ -1,4 +1,3 @@
-
 <div class="col-md-10">
 
     <div class="box box-primary">
@@ -58,7 +57,7 @@
                     <?php foreach ($chapters as $chapter): ?>
                         <tr>
                             <th><?php echo $stt++; ?></th>
-                            <td><?php echo $this->Html->link($chapter['Chapter']['name'], array('action' => 'view', $chapter['Chapter']['id'])); ?></td>
+                            <td><?php echo $this->Html->link($chapter['Chapter']['name'], array('fields_manager'=>true,'action' => 'view', $chapter['Chapter']['id'])); ?></td>
                             <td>
                                 <?php echo $chapter['Field']['name']; ?>
                             </td>

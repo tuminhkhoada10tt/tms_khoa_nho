@@ -47,3 +47,20 @@ if (!defined("SEND_REGISTRATION_MAIL")) {
 if (!defined("EMAIL_VERIFICATION")) {
     define("EMAIL_VERIFICATION", false);
 }
+
+if (!defined("COURSE_CANCELLED")) {
+    define("COURSE_CANCELLED", 0);
+}
+
+if (!defined("COURSE_REGISTERING")) {
+    define("COURSE_REGISTERING", 1);
+}
+
+if (!defined("COURSE_UNCOMPLETED")) {
+    define("COURSE_UNCOMPLETED", 2);
+}
+
+/*Có định nghĩa cứng trong model User vitualFields: coursesCompleted*/
+if (!defined("COURSE_COMPLETED")) {
+    define("COURSE_COMPLETED", 3);
+}

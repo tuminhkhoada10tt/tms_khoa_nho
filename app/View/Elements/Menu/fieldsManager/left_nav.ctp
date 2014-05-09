@@ -21,14 +21,14 @@
                     <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                 </a>
             </li>
-            <li class="treeview active">
+            <li class="treeview">
                 <a href="#">
                     <i class="fa fa-bar-chart-o"></i>
                     <span>Khóa học</span>
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="<?php echo Router::url('/',true);?>courses/add"><i class="fa fa-angle-double-right"></i> Thêm khóa học</a></li>
+                    <li><a href="/courses/add"><i class="fa fa-angle-double-right"></i> Thêm khóa học</a></li>
                     <li><a href="/courses/index/1"><i class="fa fa-angle-double-right"></i> Khóa học đang đăng ký</a></li>
                     <li><a href="/courses/index/2"><i class="fa fa-angle-double-right"></i> Khóa học sắp mở</a></li>
                     <li><a href="/courses/index/3"><i class="fa fa-angle-double-right"></i> Khóa học đã hoàn thành</a></li>
@@ -36,19 +36,19 @@
 
                 </ul>
             </li>
-            <li class="treeview active">
+            <li class="treeview">
                 <a href="#">
                     <i class="fa fa-laptop"></i>
                     <span>Chuyên đề</span>
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="/chapters/add"><i class="fa fa-angle-double-right"></i> Thêm mới</a></li>
-                    <li><a href="/chapters/index"><i class="fa fa-angle-double-right"></i> Danh sách chuyên đề</a></li>
+                    <li><a href="/fields_manager/chapters/add"><i class="fa fa-angle-double-right"></i> Thêm mới</a></li>
+                    <li><a href="/fields_manager/chapters"><i class="fa fa-angle-double-right"></i> Danh sách chuyên đề</a></li>
                     
                 </ul>
             </li>
-            <li class="treeview active">
+            <li class="treeview">
                 <a href="#">
                     <i class="fa fa-user-md"></i>
                     <span>Tập huấn viên</span>

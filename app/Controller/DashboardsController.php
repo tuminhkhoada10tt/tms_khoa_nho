@@ -18,6 +18,7 @@ class DashboardsController extends AppController {
 
     public function student_home() {
         $this->layout = 'student';
+        
     }
 
     public function teacher_home() {
@@ -38,6 +39,7 @@ class DashboardsController extends AppController {
 
     public function admin_home() {
         $this->layout = 'admin';
+        debug(getdate());
     }
 
     public function loggedInMenu() {
@@ -50,7 +52,7 @@ class DashboardsController extends AppController {
         }else{
             
         }
-        $user = $this->User->find('first', array('recursive' => 2, 'conditions' => array('User.id' => $this->Auth->user('id'))));
+        $user = $this->User->find('first', array('recursive' => 1, 'conditions' => array('User.id' => $this->Auth->user('id'))));
         if (count($user['Group']) == 1) {
             $this->Session->write('layout', $user['Group'][0]['alias']);
             $this->Session->write('change_layout', 0);

@@ -17,15 +17,55 @@ class User extends AppModel {
      * @var string
      */
     public $displayField = 'name';
-    public $actsAs = array('Acl' => array('type' => 'requester'), 'Containable','Upload.Upload' => array(
+    public $actsAs = array('Acl' => array('type' => 'requester'), 'Containable', 'Upload.Upload' => array(
             'avatar' => array(
                 'fields' => array(
                     'dir' => 'avatar_path'
                 )
             )
     ));
+    public $virtualFields = array(
+        'cancelledCourse' =>
+        "SELECT count(id) as User__completedCourse 
+         FROM  courses as TeachingCourse 
+         where 
+            TeachingCourse.teacher_id=User.id and 
+            TeachingCourse.status=0 and 
+             TeachingCourse.is_published=1
+            ",
+        'registeringCourse' =>
+        "SELECT count(id) as User__completedCourse 
+         FROM  courses as TeachingCourse 
+         where 
+            TeachingCourse.teacher_id=User.id and 
+            TeachingCourse.status=1 and 
+            TeachingCourse.is_published=1
+            ",
+        'uncompletedCourse' =>
+        "SELECT count(id) as User__completedCourse 
+         FROM  courses as TeachingCourse 
+         where 
+            TeachingCourse.teacher_id=User.id and 
+            TeachingCourse.status=2 and 
+            TeachingCourse.is_published=1
+            ",
+        'completedCourse' =>
+        "SELECT count(id) as User__completedCourse 
+         FROM  courses as TeachingCourse 
+         where 
+            TeachingCourse.teacher_id=User.id and 
+            TeachingCourse.status=3 and 
+            TeachingCourse.is_published=1
+            ",
+    );
 
     public function parentNode() {
+        $a = array('completedCourse' =>
+            "SELECT count(id) as User__completedCourse 
+         FROM  courses as TeachingCourse 
+         where 
+            TeachingCourse.teacher_id=User.id and 
+            TeachingCourse.status=" . COURSE_COMPLETED . "'");
         return null;
     }
 
