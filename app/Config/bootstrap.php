@@ -48,19 +48,26 @@ if (!defined("EMAIL_VERIFICATION")) {
     define("EMAIL_VERIFICATION", false);
 }
 
-if (!defined("COURSE_CANCELLED")) {
-    define("COURSE_CANCELLED", 0);
-}
+
 
 if (!defined("COURSE_REGISTERING")) {
     define("COURSE_REGISTERING", 1);
 }
-
+if (!defined("COURSE_OPENABLE")) {
+    define("COURSE_OPENABLE", 2);
+}
 if (!defined("COURSE_UNCOMPLETED")) {
-    define("COURSE_UNCOMPLETED", 2);
+    define("COURSE_UNCOMPLETED", 3);
 }
 
 /*Có định nghĩa cứng trong model User vitualFields: coursesCompleted*/
 if (!defined("COURSE_COMPLETED")) {
-    define("COURSE_COMPLETED", 3);
+    define("COURSE_COMPLETED", 4);
+}
+if (!defined("COURSE_CANCELLED")) {
+    define("COURSE_CANCELLED", 5);
+}
+
+if (!defined("MIN_COURSE_STUDENT_NUMBER")) {
+    define("MIN_COURSE_STUDENT_NUMBER", 15);
 }

@@ -16,6 +16,21 @@ class Course extends AppModel {
      * @var string
      */
     public $displayField = 'name';
+    public $virtualFields = array(
+        'register_student_number' =>
+        "SELECT count(id) as Course__register_student_number 
+         FROM  students_courses as StudentsCourse 
+         where 
+            StudentsCourse.course_id=Course.id 
+            ");
+    public $actsAs = array('Containable', 'Upload.Upload' => array(
+            'image' => array(
+                'fields' => array(
+                    'dir' => 'image_path'
+                )
+            )
+        )
+    );
 
     /**
      * Validation rules
@@ -89,8 +104,6 @@ class Course extends AppModel {
             //'on' => 'create', // Limit validation to 'create' or 'update' operations
             ),
         ),
-
-
         'status' => array(
             'numeric' => array(
                 'rule' => array('numeric'),
@@ -135,13 +148,13 @@ class Course extends AppModel {
             'fields' => '',
             'order' => ''
         ),
-        'CreatedUser' => array(
-			'className' => 'User',
-			'foreignKey' => 'created_user_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		)
+        'User' => array(
+            'className' => 'User',
+            'foreignKey' => 'created_user_id',
+            'conditions' => '',
+            'fields' => '',
+            'order' => ''
+        )
     );
 
     /**
@@ -150,32 +163,32 @@ class Course extends AppModel {
      * @var array
      */
     public $hasMany = array(
-        'Student' => array(
-			'className' => 'User',
-			'foreignKey' => 'student_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-		),
-        'CoursesRoom' => array(
-			'className' => 'CoursesRoom',
-			'foreignKey' => 'course_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-		),
+        'StudentsCourse' => array(
+            'className' => 'StudentsCourse',
+            'foreignKey' => 'student_id',
+            'dependent' => true,
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => ''
+        ),
+        'Buoi' => array(
+            'className' => 'CoursesRoom',
+            'foreignKey' => 'course_id',
+            'dependent' => false,
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => ''
+        ),
     );
 
     /**
@@ -183,5 +196,4 @@ class Course extends AppModel {
      *
      * @var array
      */
-
 }

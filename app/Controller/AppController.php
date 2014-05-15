@@ -3,6 +3,7 @@
 App::uses('Controller', 'Controller');
 
 class AppController extends Controller {
+
     public $components = array(
         'Session', 'RequestHandler',
         'DebugKit.Toolbar',
@@ -24,17 +25,17 @@ class AppController extends Controller {
 
     public function beforeRender() {
         parent::beforeRender();
-        if ($this->Auth->loggedIn()) {
-            if ($this->Session->check('layout')&&!$this->request->is('ajax'))
-                $this->layout = $this->Session->read('layout');
-        }
     }
 
     function beforeFilter() {
-        
-        if (in_array($this->action, array('home', 'login'))) {
+
+        if (!empty($this->params['prefix'])) {
+            $this->layout = $this->params['prefix'];
+        }
+        if (in_array($this->action, array('home', 'login','new_courses'))) {
             $this->Auth->allow($this->action);
         }
+
         $this->Auth->loginAction = array(
             'controller' => 'users',
             'action' => 'login',
@@ -42,14 +43,14 @@ class AppController extends Controller {
             'plugin' => false
         );
         $this->Auth->logoutRedirect = array(
-            'controller' => 'dashboards',
-            'action' => 'home',
+            'controller' => 'courses',
+            'action' => 'new_courses',
             'admin' => false,
             'plugin' => false
         );
         $this->Auth->loginRedirect = array(
-            'controller' => 'dashboards',
-            'action' => 'home',
+            'controller' => 'courses',
+            'action' => 'new_courses',
             'admin' => false,
             'plugin' => false
         );
@@ -61,6 +62,7 @@ class AppController extends Controller {
     }
 
     public function elfinder() {
+
         $this->TinymceElfinder->elfinder();
     }
 

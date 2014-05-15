@@ -67,7 +67,7 @@ class Chapter extends AppModel {
             'fields' => '',
             'order' => ''
         ),
-        'CreatedUser' => array(
+        'User' => array(
             'className' => 'User',
             'foreignKey' => 'created_user_id',
             'conditions' => '',

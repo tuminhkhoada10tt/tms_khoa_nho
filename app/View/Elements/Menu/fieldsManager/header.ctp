@@ -24,8 +24,9 @@
 
 
 <!-- jQuery 2.0.2 -->
-<?php //echo $this->Html->script('http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js') ?>
-<?php echo $this->Html->script('jquery') ?>
+<?php echo $this->Html->script('http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js') ?>
+<script src="http://code.jquery.com/jquery-migrate-1.2.1.js"></script>
+<?php //echo $this->Html->script('jquery') ?>
 <!-- jQuery UI 1.10.3 -->
 <?php echo $this->Html->script('jquery-ui-1.10.3.min') ?>
 <!-- Bootstrap -->

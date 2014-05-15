@@ -27,45 +27,39 @@ class User extends AppModel {
     public $virtualFields = array(
         'cancelledCourse' =>
         "SELECT count(id) as User__completedCourse 
-         FROM  courses as TeachingCourse 
+         FROM  courses as Course
          where 
-            TeachingCourse.teacher_id=User.id and 
-            TeachingCourse.status=0 and 
-             TeachingCourse.is_published=1
+            Course.teacher_id=User.id and 
+            Course.status=5 and 
+             Course.is_published=1
             ",
         'registeringCourse' =>
         "SELECT count(id) as User__completedCourse 
-         FROM  courses as TeachingCourse 
+         FROM  courses as Course 
          where 
-            TeachingCourse.teacher_id=User.id and 
-            TeachingCourse.status=1 and 
-            TeachingCourse.is_published=1
+            Course.teacher_id=User.id and 
+            Course.status=1 and 
+            Course.is_published=1
             ",
         'uncompletedCourse' =>
-        "SELECT count(id) as User__completedCourse 
-         FROM  courses as TeachingCourse 
+        "SELECT count(id) as User__completedCoruse 
+         FROM  courses as Course 
          where 
-            TeachingCourse.teacher_id=User.id and 
-            TeachingCourse.status=2 and 
-            TeachingCourse.is_published=1
+            Course.teacher_id=User.id and 
+            Course.status=3 and 
+            Course.is_published=1
             ",
         'completedCourse' =>
         "SELECT count(id) as User__completedCourse 
-         FROM  courses as TeachingCourse 
+         FROM  courses as Course 
          where 
-            TeachingCourse.teacher_id=User.id and 
-            TeachingCourse.status=3 and 
-            TeachingCourse.is_published=1
+            Course.teacher_id=User.id and 
+            Course.status=4 and 
+            Course.is_published=1
             ",
     );
 
     public function parentNode() {
-        $a = array('completedCourse' =>
-            "SELECT count(id) as User__completedCourse 
-         FROM  courses as TeachingCourse 
-         where 
-            TeachingCourse.teacher_id=User.id and 
-            TeachingCourse.status=" . COURSE_COMPLETED . "'");
         return null;
     }
 
@@ -86,10 +80,7 @@ class User extends AppModel {
             'notEmpty' => array(
                 'rule' => array('notEmpty'),
             //'message' => 'Your custom message here',
-            //'allowEmpty' => false,
-            //'required' => false,
-            //'last' => false, // Stop validation after this rule
-            //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            
             ),
         ),
         'username' => array(
@@ -234,7 +225,7 @@ class User extends AppModel {
             'finderQuery' => '',
             'counterQuery' => ''
         ),
-        'StudentsCourse' => array(
+        'Course' => array(
             'className' => 'StudentsCourse',
             'foreignKey' => 'student_id',
             'dependent' => false,

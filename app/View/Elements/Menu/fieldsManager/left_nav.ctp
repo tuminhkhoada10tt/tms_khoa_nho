@@ -2,7 +2,7 @@
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
         <!-- Sidebar user panel -->
-        
+
         <!-- search form -->
         <form action="#" method="get" class="sidebar-form">
             <div class="input-group">
@@ -28,11 +28,13 @@
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="/courses/add"><i class="fa fa-angle-double-right"></i> Thêm khóa học</a></li>
-                    <li><a href="/courses/index/1"><i class="fa fa-angle-double-right"></i> Khóa học đang đăng ký</a></li>
-                    <li><a href="/courses/index/2"><i class="fa fa-angle-double-right"></i> Khóa học sắp mở</a></li>
-                    <li><a href="/courses/index/3"><i class="fa fa-angle-double-right"></i> Khóa học đã hoàn thành</a></li>
-                    <li><a href="/courses/index/4"><i class="fa fa-angle-double-right"></i> Khóa học đã hủy</a></li>
+                    <li><a href="/fields_manager/courses/add"><i class="fa fa-angle-double-right"></i> Thêm mới</a></li>
+                    <li><a href="/fields_manager/courses/index/1"><i class="fa fa-angle-double-right"></i> Đang đăng ký</a></li>
+                    <li><a href="/fields_manager/courses/index/2"><i class="fa fa-angle-double-right"></i> Đủ điều kiện mở lớp</a></li>
+                    <li><a href="/fields_manager/courses/index/3"><i class="fa fa-angle-double-right"></i> Chưa hoàn thành</a></li>
+                    <li><a href="/fields_manager/courses/index/4"><i class="fa fa-angle-double-right"></i> Đã hoàn thành</a></li>
+                    <li><a href="/fields_manager/courses/index/5"><i class="fa fa-angle-double-right"></i> Đã hủy</a></li>
+
 
                 </ul>
             </li>
@@ -45,7 +47,7 @@
                 <ul class="treeview-menu">
                     <li><a href="/fields_manager/chapters/add"><i class="fa fa-angle-double-right"></i> Thêm mới</a></li>
                     <li><a href="/fields_manager/chapters"><i class="fa fa-angle-double-right"></i> Danh sách chuyên đề</a></li>
-                    
+
                 </ul>
             </li>
             <li class="treeview">
@@ -55,9 +57,9 @@
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="/users/add_teacher"><i class="fa fa-angle-double-right"></i> Thêm mới</a></li>
-                    <li><a href="/users/index_teacher"><i class="fa fa-angle-double-right"></i> Danh sách tập huấn viên</a></li>
-                    
+                    <li><a href="/fields_manager/users/add"><i class="fa fa-angle-double-right"></i> Thêm mới</a></li>
+                    <li><a href="/fields_manager/users/index"><i class="fa fa-angle-double-right"></i> Danh sách tập huấn viên</a></li>
+
                 </ul>
             </li>
             <li class="treeview">

@@ -31,7 +31,6 @@
             <aside class="right-side">
                 <!-- Content Header (Page header) -->
                 <section class="content-header">    
-
                     <?php echo $this->Html->getCrumbs(' > '); ?>
                 </section>
 

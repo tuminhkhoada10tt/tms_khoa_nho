@@ -70,19 +70,23 @@ class UsersController extends AppController {
         $groups = $this->User->Group->find('list');
         $this->set(compact('groups'));
     }
-/*Teacher*/
-    public function index_teacher() {
+
+    /* Teacher */
+
+    public function fields_manager_index() {
         $teacher = $this->User->Group->find('all', array(
             'conditions' => array('Group.id' => $this->User->Group->getGroupIdByAlias('teacher')),
             'contain' => array('User' => array('fields' => array('id'), 'Group' => array('fields' => array('id'))))
         ));
         $result = Set::classicExtract($teacher[0]['User'], '{n}.id');
-        $this->Paginator->settings = array('conditions' => array('User.id' => $result, 'User.created_user_id' => $this->Auth->user('id')));
+        $this->Paginator->settings = array(
+            'recursive'=>0,
+            'conditions' => array('User.id' => $result, 'User.created_user_id' => $this->Auth->user('id')));
         $this->set('users', $this->Paginator->paginate());
-        $this->viewPath='Users/Teacher';
+
     }
 
-    public function add_teacher() {
+    public function fields_manager_add() {
         if ($this->request->is('post')) {
             $this->User->set($this->data);
             if ($this->User->RegisterValidate()) {
@@ -115,11 +119,10 @@ class UsersController extends AppController {
         $hocHams = $this->User->HocHam->find('list');
         $hocVis = $this->User->HocVi->find('list');
         $this->set(compact('hocHams', 'hocVis'));
-        $this->viewPath='Users/Teacher';
     }
 
-    public function edit_teacher($id) {
-        
+    public function fields_manager_edit($id) {
+
         if (!$this->User->exists($id)) {
             throw new NotFoundException('Không tồn tại người này');
         }
@@ -136,24 +139,23 @@ class UsersController extends AppController {
         }
         $hocHams = $this->User->HocHam->find('list');
         $hocVis = $this->User->HocVi->find('list');
-        $this->set(compact('groups','hocHams','hocVis'));
-        $this->viewPath='Users/Teacher';
+        $this->set(compact('groups', 'hocHams', 'hocVis'));
     }
 
-    public function view_teacher($id){
+    public function fields_manager_view($id) {
         if (!$this->User->exists($id)) {
             throw new NotFoundException(__('Invalid user'));
         }
         $options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
         $this->set('user', $this->User->find('first', $options));
-        $this->viewPath='Users/Teacher';
     }
 
     public function search_teacher() {
         
     }
-/*end teacher*/
-    
+
+    /* end teacher */
+
     /**
      * edit method
      *
