@@ -5,17 +5,10 @@ $(function() {
      -----------------------------------------------------------------*/
     function ini_events(ele) {
         ele.each(function() {
-
-            // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
-            // it doesn't need to have a start or end
             var eventObject = {
                 title: $.trim($(this).text()) // use the element's text as the event title
             };
-
-            // store the Event Object in the DOM element so we can get to it later
             $(this).data('eventObject', eventObject);
-
-            // make the event draggable using jQuery UI
             $(this).draggable({
                 zIndex: 1070,
                 revert: true, // will cause the event to go back to its
@@ -25,10 +18,6 @@ $(function() {
         });
     }
     ini_events($('#external-events div.external-event'));
-
-    /* initialize the calendar
-     -----------------------------------------------------------------*/
-    //Date for the calendar events (dummy data)
     var date = new Date();
     var d = date.getDate(),
             m = date.getMonth(),
@@ -46,48 +35,9 @@ $(function() {
             month: 'tháng',
             week: 'tuần',
             day: 'ngày'
-        },
-        //Random default events
-        events: [
-            {
-                title: 'All Day Event',
-                start: new Date(y, m, 1),
-                room: 'Phòng B8',
-                backgroundColor: "#f56954", //red 
-                borderColor: "#f56954" //red
-            },
-            
-            {
-                title: 'Meeting',
-                start: new Date(y, m, d, 10, 30),
-                allDay: false,
-                room: 'Phòng B10',
-                backgroundColor: "#0073b7", //Blue
-                borderColor: "#0073b7" //Blue
-            },
-            {
-                title: 'Lunch',
-                start: new Date(y, m, d, 12, 0),
-                end: new Date(y, m, d, 14, 0),
-                allDay: false,
-                room: 'Phòng B11',
-                backgroundColor: "#00c0ef", //Info (aqua)
-                borderColor: "#00c0ef" //Info (aqua)
-            },
-            {
-                title: 'Birthday Party',
-                //url:,
-                start: new Date(y, m, d + 1, 19, 0),
-                end: new Date(y, m, d + 1, 22, 30),
-                allDay: false,
-                room: 'Phòng B12',
-                backgroundColor: "#00a65a", //Success (green)
-                borderColor: "#00a65a" //Success (green)
-            }
-            
-        ],
+        },        
         editable: true,
-        droppable: true, // this allows things to be dropped onto the calendar !!!
+        droppable: true,
         eventRender: function(event, element) {
             element.qtip({
                 content: event.room,
@@ -104,30 +54,19 @@ $(function() {
                         color: '#A2D959'
                     },
                     tip: 'bottomLeft',
-                    name: 'dark' // Inherit the rest of the attributes from the preset dark style
-
+                    name: 'dark'
                 }
             });
         },
-        drop: function(date, allDay) { // this function is called when something is dropped
-
-            // retrieve the dropped element's stored Event Object
+        drop: function(date, allDay) { 
             var originalEventObject = $(this).data('eventObject');
-
-            // we need to copy it, so that multiple events don't have a reference to the same object
             var copiedEventObject = $.extend({}, originalEventObject);
-
-            // assign it the date that was reported
             copiedEventObject.start = date;
             copiedEventObject.allDay = allDay;
             copiedEventObject.backgroundColor = $(this).css("background-color");
             copiedEventObject.borderColor = $(this).css("border-color");
-
-            // render the event on the calendar
-            // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
             $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
 
-            // is the "remove after drop" checkbox checked?
             if ($('#drop-remove').is(':checked')) {
                 // if so, remove the element from the "Draggable Events" list
                 $(this).remove();

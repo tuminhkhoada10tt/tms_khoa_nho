@@ -86,10 +86,12 @@ class CoursesRoomsController extends AppController {
             } else {
                 /* Yeu cau bang ajax */
                 if ($this->RequestHandler->isAjax()) {
+                    $error_text = '';
+                    foreach ($this->CoursesRoom->invalidFields() as $key => $value) {
+                        $error_text .='<br/>'  . $value[0];
+                    }
+                    $response = array('status' => 0, 'message' => $error_text);
 
-                    $response = array('status' => 0, 'message' => '<div class="alert alert-warning alert-dismissable">
-  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-  <strong>Cảnh báo!</strong> Lưu không thành công, vui lòng kiểm tra lại thông tin.</div>');
                     $this->set('response', $response);
                     $this->set('_serialize', array('response'));
                 } else {
@@ -113,20 +115,34 @@ class CoursesRoomsController extends AppController {
         if (!$this->CoursesRoom->exists($id)) {
             throw new NotFoundException(__('Invalid courses room'));
         }
-        if ($this->request->is(array('post', 'put'))) {
+        if (!empty($this->request->data)) {
+            $this->CoursesRoom->id = $id;
             if ($this->CoursesRoom->save($this->request->data)) {
-                $this->Session->setFlash(__('The courses room has been saved.'));
-                return $this->redirect(array('action' => 'index'));
+                if ($this->request->is('ajax')) {
+                    $response = array(
+                        'status' => 1
+                    );
+                    $this->set('response', $response);
+                    $this->set('_serialize', array('response'));
+                } else {
+                    $this->Session->setFlash('Đã lưu thành công!');
+                    $this->redirect(array('action' => 'index'));
+                }
             } else {
-                $this->Session->setFlash(__('The courses room could not be saved. Please, try again.'));
+                /* Yeu cau bang ajax */
+                if ($this->RequestHandler->isAjax()) {
+                    $error_text = '';
+                    foreach ($this->CoursesRoom->invalidFields() as $key => $value) {
+                        $error_text .='<br/>' . $key . ':' . $value;
+                    }
+                    $response = array('status' => 0, 'message' => $error_text);
+                    $this->set('response', $response);
+                    $this->set('_serialize', array('response'));
+                } else {
+                    $this->Session->setFlash('Lưu không thành công');
+                }
             }
-        } else {
-            $options = array('conditions' => array('CoursesRoom.' . $this->CoursesRoom->primaryKey => $id));
-            $this->request->data = $this->CoursesRoom->find('first', $options);
         }
-        $courses = $this->CoursesRoom->Course->find('list');
-        $rooms = $this->CoursesRoom->Room->find('list');
-        $this->set(compact('courses', 'rooms'));
     }
 
     /**

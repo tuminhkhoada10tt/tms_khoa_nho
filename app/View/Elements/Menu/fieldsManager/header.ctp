@@ -16,7 +16,7 @@
 <!-- Daterange picker -->
 <?php echo $this->Html->css('daterangepicker/daterangepicker-bs3'); ?>
 <!-- bootstrap wysihtml5 - text editor -->
-<?php //echo $this->Html->css('bootstrap-wysihtml5/bootstrap3-wysihtml5.min'); ?>
+
 <!-- Theme style -->
 <?php echo $this->Html->css('AdminLTE'); ?>
 
@@ -49,6 +49,7 @@
 <?php echo $this->Html->script('plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min') ?>
 <!-- iCheck -->
 <?php echo $this->Html->script('plugins/iCheck/icheck.min') ?>
+
 <!-- AdminLTE App -->
 <?php echo $this->Html->script('AdminLTE/app') ?>
 

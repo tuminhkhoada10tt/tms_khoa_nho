@@ -7,15 +7,15 @@
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
 
-                    <li class=""><a data-toggle="tab" href="#tab_2-4">Lịch học</a></li>
+                    <li class="active"><a data-toggle="tab" href="#tab_2-4">Lịch học</a></li>
                     <li class=""><a data-toggle="tab" href="#tab_2-5">Tài liệu</a></li>
 
                     <li class=""><a data-toggle="tab" href="#tab_2-2">Thông tin</a></li>
-                    <li class="active"><a data-toggle="tab" href="#tab_1-1">Nội dung</a></li>
+                    <li class=""><a data-toggle="tab" href="#tab_1-1">Nội dung</a></li>
 
                 </ul>
                 <div class="tab-content">
-                    <div id="tab_1-1" class="tab-pane active">
+                    <div id="tab_1-1" class="tab-pane">
                         <div class="noi_dung" >
                             <img alt="" class="pull-left"  style="padding-right: 10px; width: 500px;"src="/files/course/image/<?php echo $course['Course']['image_path'] . '/' . $course['Course']['image']; ?>">
 
@@ -71,7 +71,7 @@
                         </table>
                     </div><!-- /.tab-pane -->
 
-                    <div id="tab_2-4" class="tab-pane">
+                    <div id="tab_2-4" class="tab-pane active">
                         <div class="row">
                             <div class="col-md-12">
 

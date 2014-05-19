@@ -5,9 +5,18 @@ echo $this->Html->script('/jquery.qtip.custom/jquery.qtip.min');
 echo $this->Html->script('jquery.minicolors.min');
 echo $this->Html->css('jquery.minicolors');
 ?>
+<?php echo $this->Html->css('timepicker/bootstrap-timepicker.min'); ?>
 
+<?php echo $this->Html->script('plugins/input-mask/jquery.inputmask') ?>
+
+<?php echo $this->Html->script('plugins/input-mask/jquery.inputmask.date.extensions') ?>
+
+<?php echo $this->Html->script('plugins/input-mask/jquery.inputmask.extensions') ?>
+<?php echo $this->Html->script('plugins/timepicker/bootstrap-timepicker.min') ?>
+
+<div id='message'></div>
 <div class="row">
-    <div id='message'></div>
+
     <div class="col-md-3">
         <div class="box box-primary">
             <div class="box-header">
@@ -18,7 +27,7 @@ echo $this->Html->css('jquery.minicolors');
                 <div id='external-events'>  
                     <?php foreach ($course['Buoi'] as $buoi): ?>
 
-                        <div class='external-event' style="background-color: <?php echo $buoi['color']; ?>" 
+                        <div class='external-event' style="color: #fff ;background-color: <?php echo $buoi['color']; ?>" 
                              data-id='<?php echo $buoi['id']; ?>' 
                              data-room='<?php echo $buoi['Room']['name']; ?>' 
                              data-room_id='<?php echo $buoi['room_id']; ?>'
@@ -29,13 +38,13 @@ echo $this->Html->css('jquery.minicolors');
                                  <?php echo $buoi['name']; ?>
                         </div>                    
                     <?php endforeach; ?>
-                    
+
                 </div>
             </div><!-- /.box-body -->
         </div><!-- /. box -->
         <div class="box box-primary">
             <div class="box-header">
-                <h3 class="box-title">Thêm buổi</h3>    
+                <h3 class="box-title">Thêm - Sửa - Xóa buổi học</h3>    
             </div>
             <div class="box-body">
                 <?php echo $this->Form->create('CoursesRoom', array('id' => 'addBuoiForm')); ?>  
@@ -45,13 +54,24 @@ echo $this->Html->css('jquery.minicolors');
 
                 <?php echo $this->Form->input('name', array('label' => false, 'id' => 'new-event', 'class' => 'form-control', 'placeholder' => "Tên buổi, vd: buổi 1, buổi 2")); ?>
                 <?php echo $this->Form->input('priority', array('label' => false, 'id' => 'pri-event', 'class' => 'form-control', 'placeholder' => "Thứ tự học, ví dụ: 1, 2, 3")); ?>
+
+
                 <input id="txt_current_event" type="hidden" value="" />
                 <div class="input-group">
                     <?php echo $this->Form->input('room_id', array('label' => false, 'div' => false, 'id' => 'room-event', 'class' => 'form-control', 'empty' => "Chọn phòng..")); ?>
                     <span class="input-group-addon"><a href="/rooms/add" class="fancybox.ajax add-button"><i class="glyphicon glyphicon-plus"></i></a></span>
                 </div>
 
-                <button id="add-new-event" type="submit" class="btn btn-info">Thêm</button>
+            </div>
+            <div class="box-footer">
+                <div class="btn-toolbar">
+                    <button id="add-new-event" type="button" class="btn btn-info btn-sm"><span class="fa fa-plus"></span></button>
+                    <button id="edit-event" type="button" class="btn btn-success btn-sm" ><span class="fa fa-pencil"></span></button>
+                    <button id="save-event" type="submit" class="btn bg-navy btn-sm"><span class="fa fa-save"></span></button>
+                    <button id="delete-event" type="button" class="btn btn-danger btn-sm"><span class="fa  fa-trash-o"></span></button>
+                    <button id="cancel-event" type="button" class="btn btn-warning btn-sm"><span class="fa fa-times"></span></button>
+                </div>
+
                 <?php echo $this->Form->end(); ?>
             </div>
         </div>

@@ -31,28 +31,29 @@ class CoursesRoom extends AppModel {
                 'message' => 'Nhập tên buổi'
             ),
             'mustUnique' => array(
-                'rule' => array('checkDuyNhat','course_id'),
+                'rule' => array('checkTenDuyNhat', 'course_id'),
                 'message' => 'Đã có buổi tên này thuộc khóa học rồi.',
-                'last' => true),
+                'on' => 'create'
+            )
+        ,
+        ),
+        'priority' => array(
+            'mustUnique' => array(
+                'rule' => array('checkUuTienDuyNhat', 'course_id'),
+                'message' => 'Đã có buổi học trong khóa với độ ưu tiên này.',
+                'on' => 'create'
+            )
         ),
         'course_id' => array(
             'numeric' => array(
                 'rule' => array('numeric'),
-            //'message' => 'Your custom message here',
-            //'allowEmpty' => false,
-            //'required' => false,
-            //'last' => false, // Stop validation after this rule
-            //'on' => 'create', // Limit validation to 'create' or 'update' operations
+                'message' => 'Chưa có khóa học',
             ),
         ),
         'room_id' => array(
             'numeric' => array(
                 'rule' => array('numeric'),
-            //'message' => 'Your custom message here',
-            //'allowEmpty' => false,
-            //'required' => false,
-            //'last' => false, // Stop validation after this rule
-            //'on' => 'create', // Limit validation to 'create' or 'update' operations
+                'message' => 'Chưa chọn phòng',
             ),
         ),
         'begin' => array(
@@ -98,10 +99,18 @@ class CoursesRoom extends AppModel {
         )
     );
 
-    public function checkDuyNhat($check,$course_id){        
-        $conditions=array('CoursesRoom.course_id'=>$this->data[$this->name][$course_id],'CoursesRoom.name like'=>$check['name']); 
-        $existing = $this->find('count',array('conditions'=>$conditions));
-        
-        return($existing<1);
+    public function checkTenDuyNhat($check, $course_id) {
+        $conditions = array('CoursesRoom.course_id' => $this->data[$this->name][$course_id], 'CoursesRoom.name like' => $check['name']);
+        $existing = $this->find('count', array('conditions' => $conditions));
+
+        return($existing < 1);
     }
+
+    public function checkUuTienDuyNhat($check, $course_id) {
+        $conditions = array('CoursesRoom.course_id' => $this->data[$this->name][$course_id], 'CoursesRoom.priority' => $check['priority']);
+        $existing = $this->find('count', array('conditions' => $conditions));
+
+        return($existing < 1);
+    }
+
 }
