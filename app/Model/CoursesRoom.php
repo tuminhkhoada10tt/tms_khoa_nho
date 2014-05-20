@@ -16,7 +16,7 @@ class CoursesRoom extends AppModel {
      *
      * @var string
      */
-    public $displayField = 'name';
+    public $displayField = 'title';
     public $actsAs = array('Containable');
 
     /**
@@ -25,7 +25,7 @@ class CoursesRoom extends AppModel {
      * @var array
      */
     public $validate = array(
-        'name' => array(
+        'title' => array(
             'notEmpty' => array(
                 'rule' => array('notEmpty'),
                 'message' => 'Nhập tên buổi'
@@ -54,16 +54,6 @@ class CoursesRoom extends AppModel {
             'numeric' => array(
                 'rule' => array('numeric'),
                 'message' => 'Chưa chọn phòng',
-            ),
-        ),
-        'begin' => array(
-            'datetime' => array(
-                'rule' => array('datetime'),
-            //'message' => 'Your custom message here',
-            //'allowEmpty' => false,
-            //'required' => false,
-            //'last' => false, // Stop validation after this rule
-            //'on' => 'create', // Limit validation to 'create' or 'update' operations
             ),
         ),
     );
@@ -100,7 +90,7 @@ class CoursesRoom extends AppModel {
     );
 
     public function checkTenDuyNhat($check, $course_id) {
-        $conditions = array('CoursesRoom.course_id' => $this->data[$this->name][$course_id], 'CoursesRoom.name like' => $check['name']);
+        $conditions = array('CoursesRoom.course_id' => $this->data[$this->name][$course_id], 'CoursesRoom.title like' => $check['title']);
         $existing = $this->find('count', array('conditions' => $conditions));
 
         return($existing < 1);
@@ -112,5 +102,4 @@ class CoursesRoom extends AppModel {
 
         return($existing < 1);
     }
-
 }

@@ -104,7 +104,7 @@ class CoursesController extends AppController {
         }
         $contain = array(
             'User' => array('fields' => array('id', 'name')),
-            'Buoi'=>array('Room'=>array('id','name')),
+            'Buoi'=>array('Room'=>array('id','name'),'conditions'=>array('Buoi.course_id' => $id, 'Buoi.start is null')),
             'Teacher' => array('fields' => array('id', 'name', 'email', 'phone_number'), 'HocHam', 'HocVi'
             ), 'Chapter'
         );

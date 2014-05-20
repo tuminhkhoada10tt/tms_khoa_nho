@@ -1,19 +1,10 @@
 <?php
-echo $this->Html->script('jquery.form');
-echo $this->Html->css('/jquery.qtip.custom/jquery.qtip.min');
-echo $this->Html->script('/jquery.qtip.custom/jquery.qtip.min');
-echo $this->Html->script('jquery.minicolors.min');
-echo $this->Html->css('jquery.minicolors');
+echo $this->Html->script('jquery.form',array('inline'=>false));
+echo $this->Html->css('/jquery.qtip.custom/jquery.qtip.min',array('inline'=>false));
+echo $this->Html->script('/jquery.qtip.custom/jquery.qtip.min',array('inline'=>false));
+echo $this->Html->script('jquery.minicolors.min',array('inline'=>false));
+echo $this->Html->css('jquery.minicolors',array('inline'=>false));
 ?>
-<?php echo $this->Html->css('timepicker/bootstrap-timepicker.min'); ?>
-
-<?php echo $this->Html->script('plugins/input-mask/jquery.inputmask') ?>
-
-<?php echo $this->Html->script('plugins/input-mask/jquery.inputmask.date.extensions') ?>
-
-<?php echo $this->Html->script('plugins/input-mask/jquery.inputmask.extensions') ?>
-<?php echo $this->Html->script('plugins/timepicker/bootstrap-timepicker.min') ?>
-
 <div id='message'></div>
 <div class="row">
 
@@ -31,11 +22,11 @@ echo $this->Html->css('jquery.minicolors');
                              data-id='<?php echo $buoi['id']; ?>' 
                              data-room='<?php echo $buoi['Room']['name']; ?>' 
                              data-room_id='<?php echo $buoi['room_id']; ?>'
-                             data-name='<?php echo $buoi['name']; ?>' 
+                             data-title='<?php echo $buoi['title']; ?>' 
                              data-priority='<?php echo $buoi['priority']; ?>' 
                              data-color='<?php echo $buoi['color']; ?>'
                              > 
-                                 <?php echo $buoi['name']; ?>
+                                 <?php echo $buoi['title']; ?>
                         </div>                    
                     <?php endforeach; ?>
 
@@ -51,12 +42,9 @@ echo $this->Html->css('jquery.minicolors');
 
                 <label for="hue-demo">Màu nền</label>
                 <input type="text" id="txt_background_color" class="form-control demo" data-control="hue" name="data[CoursesRoom][color]" value="#ff6161">
-
-                <?php echo $this->Form->input('name', array('label' => false, 'id' => 'new-event', 'class' => 'form-control', 'placeholder' => "Tên buổi, vd: buổi 1, buổi 2")); ?>
+                <?php echo $this->Form->input('title', array('label' => false, 'id' => 'new-event', 'class' => 'form-control', 'placeholder' => "Tên buổi, vd: buổi 1, buổi 2")); ?>
                 <?php echo $this->Form->input('priority', array('label' => false, 'id' => 'pri-event', 'class' => 'form-control', 'placeholder' => "Thứ tự học, ví dụ: 1, 2, 3")); ?>
-
-
-                <input id="txt_current_event" type="hidden" value="" />
+                <?php echo $this->Form->input('current_event_id',array('id'=>'txt_current_event','type'=>'hidden'));?>
                 <div class="input-group">
                     <?php echo $this->Form->input('room_id', array('label' => false, 'div' => false, 'id' => 'room-event', 'class' => 'form-control', 'empty' => "Chọn phòng..")); ?>
                     <span class="input-group-addon"><a href="/rooms/add" class="fancybox.ajax add-button"><i class="glyphicon glyphicon-plus"></i></a></span>

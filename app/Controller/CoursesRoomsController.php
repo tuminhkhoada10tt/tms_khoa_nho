@@ -27,12 +27,11 @@ class CoursesRoomsController extends AppController {
 
         $conditions = array();
         if ($course_id) {
-            $conditions = Set::merge($conditions, array('CoursesRoom.course_id' => $course_id, 'CoursesRoom.begin is not null'));
+            $conditions = Set::merge($conditions, array('CoursesRoom.course_id' => $course_id, 'CoursesRoom.start is not null'));
         }
         $contain = array('Room' => array('fields' => array('id', 'name')));
         $options = array('conditions' => $conditions, 'contain' => $contain);
         $buois = $this->CoursesRoom->find('all', $options);
-
         $result = Set::classicExtract($buois, '{n}.CoursesRoom');
         $this->set(array(
             'result' => $result,
@@ -71,7 +70,7 @@ class CoursesRoomsController extends AppController {
                     $response = array(
                         'status' => 1,
                         'id' => $this->CoursesRoom->id,
-                        'name' => $this->CoursesRoom->field('name'),
+                        'title' => $this->CoursesRoom->field('title'),
                         'priority' => $this->CoursesRoom->field('priority'),
                         'currColor' => $this->CoursesRoom->field('color'),
                         'room_id' => $this->CoursesRoom->field('room_id'),
@@ -88,7 +87,7 @@ class CoursesRoomsController extends AppController {
                 if ($this->RequestHandler->isAjax()) {
                     $error_text = '';
                     foreach ($this->CoursesRoom->invalidFields() as $key => $value) {
-                        $error_text .='<br/>'  . $value[0];
+                        $error_text .='<br/>' . $value[0];
                     }
                     $response = array('status' => 0, 'message' => $error_text);
 
@@ -145,6 +144,90 @@ class CoursesRoomsController extends AppController {
         }
     }
 
+    public function eventResize($id) {
+        $this->layout = 'ajax';
+        $format = 'Y-m-d H:i:s';
+
+        $this->request->accepts('ajax');
+        if (!empty($this->request->data['minuteDelta']) && $this->request->data['minuteDelta'] != 0) {
+            $minuteDelta = $this->request->data['minuteDelta'];
+            $this->CoursesRoom->id = $id;
+            $db_end_date = new DateTime($this->CoursesRoom->field('end'));
+            if ($minuteDelta > 0) {
+                $db_end_date->modify('+ ' . abs($minuteDelta) . ' minutes');
+            }else{
+                $db_end_date->modify('- ' . abs($minuteDelta) . ' minutes');
+            }
+            $end = date('Y-m-d H:i:s', strtotime($db_end_date->format($format)));
+            if ($this->CoursesRoom->saveField('end', $end)) {
+                $this->layout = 'ajax';
+                $response = array('status' => 1, 'message' => 'Thành công!');
+            } else {
+                $error_text = '';
+                foreach ($this->CoursesRoom->invalidFields() as $key => $value) {
+                    $error_text .='<br/>' . $key . ':' . $value;
+                }
+                $response = array('status' => 0, 'message' => $error_text);
+            }
+            $this->set('response', $response);
+        }
+    }
+
+    public function cap_nhat_buoi($id) {
+        /* Yeu cau bang ajax */
+        $this->layout = 'ajax';
+        if (!$this->CoursesRoom->exists($id)) {
+            throw new NotFoundException(__('Invalid courses room'));
+        }
+        if (!empty($this->request->data)) {
+            $this->CoursesRoom->id = $id;
+
+            if (!empty($this->request->data['start'])) {
+                $format = 'Y-m-d H:i:s';
+                $end = $this->request->data['start'];
+                $dbstart = $this->CoursesRoom->field('start');
+
+                if (!empty($dbstart)) {
+                    $dbstart = new DateTime($dbstart);
+                    $db_start_hours = $dbstart->format('H');
+                    $db_start_minute = $dbstart->format('i');
+                    $request_start_date = new DateTime($this->request->data['start']);
+                    date_time_set($request_start_date, $db_start_hours, $db_start_minute);
+                    $this->request->data['CoursesRoom']['start'] = date($format, strtotime(date_format($request_start_date, $format)));
+                } else {
+                    $this->request->data['start'] = date('Y-m-d H:i:s', strtotime($this->request->data['start']));
+                }
+
+                $dbend = $this->CoursesRoom->field('end');
+                if (!empty($dbend)) {
+                    $dbend = new DateTime($dbend);
+                    $db_end_hours = $dbend->format('H');
+                    $db_end_minute = $dbend->format('i');
+                    $request_end_date = new DateTime($this->request->data['start']);
+                    date_time_set($request_end_date, $db_end_hours, $db_end_minute);
+                    $this->request->data['CoursesRoom']['end'] = date('Y-m-d H:i:s', strtotime(date_format($request_end_date, $format)));
+                } else {
+                    $this->request->data['end'] = date('Y-m-d H:i:s', strtotime($end . ' +' . THOI_GIAN_MOT_BUOI_HOC . ' hours'));
+                }
+            }
+
+            if ($this->CoursesRoom->save($this->request->data)) {
+                $this->layout = 'ajax';
+                $response = array('status' => 1, 'message' => 'Thành công!');
+                $this->set('response', $response);
+            } else {
+
+
+                $error_text = '';
+                foreach ($this->CoursesRoom->invalidFields() as $key => $value) {
+                    $error_text .='<br/>' . $key . ':' . $value;
+                }
+                $response = array('status' => 0, 'message' => $error_text);
+                $this->set('response', $response);
+            }
+        }
+    }
+
     /**
      * delete method
      *
@@ -164,6 +247,21 @@ class CoursesRoomsController extends AppController {
             $this->Session->setFlash(__('The courses room could not be deleted. Please, try again.'));
         }
         return $this->redirect(array('action' => 'index'));
+    }
+
+    public function removeEvent($id = null) {
+        $this->layout = 'ajax';
+        $this->CoursesRoom->id = $id;
+        if (!$this->CoursesRoom->exists()) {
+            throw new NotFoundException('Không tồn tại buổi học này');
+        }
+        $this->request->onlyAllow('ajax');
+        if ($this->CoursesRoom->delete()) {
+            $response = array('success' => 1);
+        } else {
+            $response = array('success' => 0);
+        }
+        $this->set('response', $response);
     }
 
 }

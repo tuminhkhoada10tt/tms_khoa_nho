@@ -71,3 +71,8 @@ if (!defined("COURSE_CANCELLED")) {
 if (!defined("MIN_COURSE_STUDENT_NUMBER")) {
     define("MIN_COURSE_STUDENT_NUMBER", 15);
 }
+/*Thời gian tối đa của buổi học là 4 tiếng*/
+
+if (!defined("THOI_GIAN_MOT_BUOI_HOC")) {
+    define("THOI_GIAN_MOT_BUOI_HOC", 4);
+}
