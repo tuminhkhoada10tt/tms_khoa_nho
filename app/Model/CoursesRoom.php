@@ -18,6 +18,12 @@ class CoursesRoom extends AppModel {
      */
     public $displayField = 'title';
     public $actsAs = array('Containable');
+    public $virtualFields = array(
+        'room' =>
+        "SELECT Room.name as CoursesRoom__room
+         FROM  rooms as Room 
+         where Room.id=CoursesRoom.room_id 
+            ");
 
     /**
      * Validation rules
@@ -102,4 +108,5 @@ class CoursesRoom extends AppModel {
 
         return($existing < 1);
     }
+
 }

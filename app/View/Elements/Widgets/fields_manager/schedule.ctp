@@ -16,7 +16,7 @@ echo $this->Html->css('jquery.minicolors',array('inline'=>false));
             <div class="box-body">
                 <!-- the events -->
                 <div id='external-events'>  
-                    <?php foreach ($course['Buoi'] as $buoi): ?>
+                    <?php foreach ($course['CoursesRoom'] as $buoi): ?>
 
                         <div class='external-event' style="color: #fff ;background-color: <?php echo $buoi['color']; ?>" 
                              data-id='<?php echo $buoi['id']; ?>' 

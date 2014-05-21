@@ -53,7 +53,7 @@ class ChaptersController extends AppController {
         if (!$this->Chapter->exists($id)) {
             throw new NotFoundException(__('Invalid chapter'));
         }
-        $contain = array('User' => array('fields' => array('id', 'name')), 'Field');
+        $contain = array('TaiLieu','User' => array('fields' => array('id', 'name')), 'Field');
         $options = array('conditions' => array('Chapter.' . $this->Chapter->primaryKey => $id), 'contain' => $contain);
         $this->set('chapter', $this->Chapter->find('first', $options));
     }
@@ -62,9 +62,12 @@ class ChaptersController extends AppController {
         if ($this->request->is('post')) {
             $this->Chapter->create();
             $this->request->data['Chapter']['created_user_id'] = $this->Auth->user('id');
-            if ($this->Chapter->save($this->request->data)) {
+            try {
+                $this->Chapter->createWithAttachments($this->request->data);
                 $this->Session->setFlash('Thêm chuyên đề thành công', 'alert', array('plugin' => 'BoostCake', 'class' => 'alert-success'));
                 return $this->redirect(array('action' => 'index'));
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
             }
         }
         $fields = $this->Chapter->Field->find('list');
@@ -107,10 +110,11 @@ class ChaptersController extends AppController {
      * @return void
      */
     public function view($id = null) {
+        
         if (!$this->Chapter->exists($id)) {
             throw new NotFoundException(__('Invalid chapter'));
         }
-        $contain = array('CreatedUser' => array('fields' => array('id', 'name')), 'Field');
+        $contain = array('TaiLieu','CreatedUser' => array('fields' => array('id', 'name')), 'Field');
         $options = array('conditions' => array('Chapter.' . $this->Chapter->primaryKey => $id), 'contain' => $contain);
         $this->set('chapter', $this->Chapter->find('first', $options));
     }

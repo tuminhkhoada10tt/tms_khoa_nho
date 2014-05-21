@@ -176,7 +176,7 @@ class Course extends AppModel {
             'finderQuery' => '',
             'counterQuery' => ''
         ),
-        'Buoi' => array(
+        'CoursesRoom' => array(
             'className' => 'CoursesRoom',
             'foreignKey' => 'course_id',
             'dependent' => false,

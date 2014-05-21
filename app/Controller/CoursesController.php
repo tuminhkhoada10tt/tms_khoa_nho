@@ -104,12 +104,12 @@ class CoursesController extends AppController {
         }
         $contain = array(
             'User' => array('fields' => array('id', 'name')),
-            'Buoi'=>array('Room'=>array('id','name'),'conditions'=>array('Buoi.course_id' => $id, 'Buoi.start is null')),
+            'CoursesRoom'=>array('Room'=>array('id','name'),'conditions'=>array('CoursesRoom.course_id' => $id, 'CoursesRoom.start is null')),
             'Teacher' => array('fields' => array('id', 'name', 'email', 'phone_number'), 'HocHam', 'HocVi'
             ), 'Chapter'
         );
         $options = array('conditions' => array('Course.' . $this->Course->primaryKey => $id), 'contain' => $contain);
-        $rooms = $this->Course->Buoi->Room->find('list');
+        $rooms = $this->Course->CoursesRoom->Room->find('list');
         $course = $this->Course->find('first', $options);
         $this->set(compact('course', 'rooms'));
     }
