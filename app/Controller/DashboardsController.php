@@ -8,7 +8,7 @@ App::uses('AppController', 'Controller');
  */
 class DashboardsController extends AppController {
 
-    public $uses = array('User', 'Group','Course','Chapter');
+    public $uses = array('User', 'Group', 'Course', 'Chapter');
 
     public function home() {
         if ($this->Auth->loggedIn()) {
@@ -21,37 +21,50 @@ class DashboardsController extends AppController {
             }
             //$this->layout = 'group_select';
             //$this->set('users', $user);
-            
         }
     }
 
     public function student_home() {
-        $this->Session->write('layout','student');
+        $this->Session->write('layout', 'student');
         $this->layout = 'student';
+        $contain = array(
+            'User' => array('fields' => array('id', 'name')), //create user
+            'Teacher' => array('fields' => array('id', 'name')), //Teacher
+            'StudentsCourse', //Khoa hoc
+            'Chapter'=>array('fields'=>array('id','name'))//Chuyen de
+        );
+        $conditions = array('Course.status' => COURSE_REGISTERING);
+        $fields = array('id', 'name', 'chapter_id','max_enroll_number', 'enrolling_expiry_date', 'register_student_number','session_number' );
+        $courses = $this->Course->find('all', array('conditions' => $conditions, 'contain' => $contain, 'fields' => $fields));
+        //debug($courses);die;
+        $fields = $this->Course->Chapter->Field->find('list');
+        $chapters = $this->Course->Chapter->find('list');
+        $this->set(compact('fields', 'chapters'));
+        $this->set('courses', $courses);
     }
 
     public function teacher_home() {
-        $this->Session->write('layout','teacher');
+        $this->Session->write('layout', 'teacher');
         $this->layout = 'teacher';
     }
 
     public function manager_home() {
-        $this->Session->write('layout','manager');
+        $this->Session->write('layout', 'manager');
         $this->layout = 'manager';
     }
 
     public function fields_manager_home() {
-        $this->Session->write('layout','fields_manager');
+        $this->Session->write('layout', 'fields_manager');
         $this->layout = 'fields_manager';
     }
 
     public function boss_home() {
-        $this->Session->write('layout','boss');
+        $this->Session->write('layout', 'boss');
         $this->layout = 'boss';
     }
 
     public function admin_home() {
-        $this->Session->write('layout','admin');
+        $this->Session->write('layout', 'admin');
         $this->layout = 'admin';
     }
 

@@ -37,9 +37,6 @@ class CoursesController extends AppController {
         if ($this->Auth->loggedIn()) {
             $user = $this->Course->User->find('first', array('contain' => array('Group'), 'conditions' => array('User.id' => $this->Auth->user('id'))));
             if (count($user['Group']) == 1) {
-                $this->Session->write('layout', $user['Group'][0]['alias']);
-                $this->Session->write('change_layout', 0);
-                $this->Session->write('group_name', $user['Group'][0]['name']);
                 return $this->redirect(array('controller' => 'dashboards', 'action' => $user['Group'][0]['alias'] . '_home'));
             }
             //$this->layout = 'group_select';
