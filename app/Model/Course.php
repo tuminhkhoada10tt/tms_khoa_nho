@@ -190,10 +190,5 @@ class Course extends AppModel {
             'counterQuery' => ''
         ),
     );
-
-    /**
-     * hasAndBelongsToMany associations
-     *
-     * @var array
-     */
+    
 }

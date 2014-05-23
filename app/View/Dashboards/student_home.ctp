@@ -8,6 +8,8 @@
 </div>
 <div class="col-md-4">
     <div class="row">
+        <!--Khoa hoc da dang ky-->
+        
         <!--WIDGET TIN TỨC - THÔNG BÁO-->
         <?php echo $this->element('Widgets/student/news') ?>
         <!--WIDGET Thống kê-->

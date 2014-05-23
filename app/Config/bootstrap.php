@@ -76,3 +76,7 @@ if (!defined("MIN_COURSE_STUDENT_NUMBER")) {
 if (!defined("THOI_GIAN_MOT_BUOI_HOC")) {
     define("THOI_GIAN_MOT_BUOI_HOC", 4);
 }
+
+if (!defined("FILE_DIR")) {
+    define("FILE_DIR", 'files');
+}

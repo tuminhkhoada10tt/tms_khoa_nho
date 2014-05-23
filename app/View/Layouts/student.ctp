@@ -54,17 +54,7 @@
 
 
 
-        <!-- Javascript -->          
-        <?php echo $this->Html->script('/user/plugins/jquery-1.10.2.min'); ?>
-        <?php echo $this->Html->script('/user/plugins/jquery-migrate-1.2.1.min'); ?>
-        <?php echo $this->Html->script('/user/plugins/bootstrap/js/bootstrap.min'); ?>
-        <?php echo $this->Html->script('/user/plugins/bootstrap-hover-dropdown.min'); ?>
-        <?php echo $this->Html->script('/user/plugins/back-to-top'); ?>
-        <?php echo $this->Html->script('/user/plugins/jquery-placeholder/jquery.placeholder'); ?>
-        <?php echo $this->Html->script('/user/plugins/pretty-photo/js/jquery.prettyPhoto'); ?>
-        <?php echo $this->Html->script('/user/plugins/flexslider/jquery.flexslider-min'); ?>
-        <?php echo $this->Html->script('/user/plugins/jflickrfeed/jflickrfeed.min'); ?>
-        <?php echo $this->Html->script('/user/js/main'); ?>
+        
     </body>
 </html> 
 

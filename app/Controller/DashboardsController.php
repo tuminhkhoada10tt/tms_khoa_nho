@@ -8,7 +8,7 @@ App::uses('AppController', 'Controller');
  */
 class DashboardsController extends AppController {
 
-    public $uses = array('User', 'Group', 'Course', 'Chapter');
+    public $uses = array('User', 'Group', 'Course', 'Chapter','StudentsCourse','CoursesRoom','Room');
 
     public function home() {
         if ($this->Auth->loggedIn()) {
@@ -19,28 +19,31 @@ class DashboardsController extends AppController {
                 $this->Session->write('group_name', $user['Group'][0]['name']);
                 return $this->redirect(array('controller' => 'dashboards', 'action' => $user['Group'][0]['alias'] . '_home'));
             }
-            //$this->layout = 'group_select';
-            //$this->set('users', $user);
         }
     }
 
     public function student_home() {
+        //debug());
         $this->Session->write('layout', 'student');
         $this->layout = 'student';
         $contain = array(
             'User' => array('fields' => array('id', 'name')), //create user
             'Teacher' => array('fields' => array('id', 'name')), //Teacher
+            'CoursesRoom'=>array('Room'=>array('id','name')),
             'StudentsCourse', //Khoa hoc
             'Chapter'=>array('fields'=>array('id','name'))//Chuyen de
         );
-        $conditions = array('Course.status' => COURSE_REGISTERING);
-        $fields = array('id', 'name', 'chapter_id','max_enroll_number', 'enrolling_expiry_date', 'register_student_number','session_number' );
-        $courses = $this->Course->find('all', array('conditions' => $conditions, 'contain' => $contain, 'fields' => $fields));
+        //Lay danh muc cac khoa da dang ky
+        $khoa_da_dang_ky=$this->StudentsCourse->getEnrolledCourses($this->Auth->user('id'));
+        //$unenroll_courses=
+        
+        $conditions = array('NOT'=>array('Course.id'=>$khoa_da_dang_ky));        
+        $course_fields = array('id', 'name', 'chapter_id','max_enroll_number', 'enrolling_expiry_date', 'register_student_number','session_number' );
+        $courses = $this->Course->find('all', array('conditions' => $conditions, 'contain' => $contain, 'fields' => $course_fields));
         //debug($courses);die;
         $fields = $this->Course->Chapter->Field->find('list');
         $chapters = $this->Course->Chapter->find('list');
-        $this->set(compact('fields', 'chapters'));
-        $this->set('courses', $courses);
+        $this->set(compact('fields', 'chapters','courses'));
     }
 
     public function teacher_home() {

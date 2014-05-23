@@ -1,6 +1,6 @@
 <div class="container" style="margin-top: 50px;">
     <?php
-    $this->Html->addCrumb('Tập huấn viên', '/teachers');
+    $this->Html->addCrumb('Tập huấn viên', '/fields_manager/teachers');
     $this->Html->addCrumb('Thêm Tập huấn viên mới');
     ?>
     <?php

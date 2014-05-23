@@ -16,6 +16,13 @@ class Chapter extends AppModel {
      * @var string
      */
     public $displayField = 'name';
+    public $virtualFields = array(
+        'course_number' =>
+        "SELECT count(id) as Chapter__course_number 
+         FROM  courses as Course 
+         where 
+            Course.chapter_id=Chapter.id 
+            ");
     public $actsAs = array('Containable', 'Upload.Upload' => array(
             'image' => array(
                 'fields' => array(
@@ -132,7 +139,7 @@ class Chapter extends AppModel {
     }
 
     public function isOwnedBy($chapter, $user) {
-        return $this->field('id', array('id' => $chapter, 'user_id' => $user)) !== false;
+        return $this->field('id', array('id' => $chapter, 'created_user_id' => $user)) !== false;
     }
 
 }

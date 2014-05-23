@@ -1,114 +1,70 @@
-<div class="chapters view">
-    <?php debug($chapter); ?>
-    <h2><?php echo __('Chapter'); ?></h2>
-    <dl>
-        <dt><?php echo __('Name'); ?></dt>
-        <dd>
-            <?php echo h($chapter['Chapter']['name']); ?>
-            &nbsp;
-        </dd>
-        <dt><?php echo __('Field'); ?></dt>
-        <dd>
-            <?php echo $this->Html->link($chapter['Field']['name'], array('controller' => 'fields', 'action' => 'view', $chapter['Field']['id'])); ?>
-            &nbsp;
-        </dd>
-        <dt><?php echo __('Decriptions'); ?></dt>
-        <dd>
-            <?php echo h($chapter['Chapter']['decriptions']); ?>
-            &nbsp;
-        </dd>
-        <dt><?php echo __('Image'); ?></dt>
-        <dd>
-            <?php echo h($chapter['Chapter']['image']); ?>
-            &nbsp;
-        </dd>
-        <dt><?php echo __('Image Path'); ?></dt>
-        <dd>
-            <?php echo h($chapter['Chapter']['image_path']); ?>
-            &nbsp;
-        </dd>
-        <dt><?php echo __('Created'); ?></dt>
-        <dd>
-            <?php echo h($chapter['Chapter']['created']); ?>
-            &nbsp;
-        </dd>
-        <dt><?php echo __('Modified'); ?></dt>
-        <dd>
-            <?php echo h($chapter['Chapter']['modified']); ?>
-            &nbsp;
-        </dd>
-        <dt><?php echo __('Id'); ?></dt>
-        <dd>
-            <?php echo h($chapter['Chapter']['id']); ?>
-            &nbsp;
-        </dd>
-    </dl>
-</div>
-<div class="actions">
-    <h3><?php echo __('Actions'); ?></h3>
-    <ul>
-        <li><?php echo $this->Html->link(__('Edit Chapter'), array('action' => 'edit', $chapter['Chapter']['id'])); ?> </li>
-        <li><?php echo $this->Form->postLink(__('Delete Chapter'), array('action' => 'delete', $chapter['Chapter']['id']), null, __('Are you sure you want to delete # %s?', $chapter['Chapter']['id'])); ?> </li>
-        <li><?php echo $this->Html->link(__('List Chapters'), array('action' => 'index')); ?> </li>
-        <li><?php echo $this->Html->link(__('New Chapter'), array('action' => 'add')); ?> </li>
-        <li><?php echo $this->Html->link(__('List Fields'), array('controller' => 'fields', 'action' => 'index')); ?> </li>
-        <li><?php echo $this->Html->link(__('New Field'), array('controller' => 'fields', 'action' => 'add')); ?> </li>
-        <li><?php echo $this->Html->link(__('List Courses'), array('controller' => 'courses', 'action' => 'index')); ?> </li>
-        <li><?php echo $this->Html->link(__('New Course'), array('controller' => 'courses', 'action' => 'add')); ?> </li>
-    </ul>
-</div>
-<div class="related">
-    <h3><?php echo __('Related Courses'); ?></h3>
-    <?php if (!empty($chapter['Course'])): ?>
-        <table cellpadding = "0" cellspacing = "0">
-            <tr>
-                <th><?php echo __('Name'); ?></th>
-                <th><?php echo __('Decription'); ?></th>
-                <th><?php echo __('Max Enroll Number'); ?></th>
-                <th><?php echo __('Session Number'); ?></th>
-                <th><?php echo __('Is Published'); ?></th>
-                <th><?php echo __('Is Cancelled'); ?></th>
-                <th><?php echo __('Is Master Teaching'); ?></th>
-                <th><?php echo __('Is Lock Grade Update'); ?></th>
-                <th><?php echo __('Enrolling Expiry Date'); ?></th>
-                <th><?php echo __('Grade Update Expiry Date'); ?></th>
-                <th><?php echo __('Status'); ?></th>
-                <th><?php echo __('Created'); ?></th>
-                <th><?php echo __('Modified'); ?></th>
-                <th><?php echo __('Id'); ?></th>
-                <th><?php echo __('Chapter Id'); ?></th>
-                <th class="actions"><?php echo __('Actions'); ?></th>
-            </tr>
-            <?php foreach ($chapter['Course'] as $course): ?>
-                <tr>
-                    <td><?php echo $course['name']; ?></td>
-                    <td><?php echo $course['decription']; ?></td>
-                    <td><?php echo $course['max_enroll_number']; ?></td>
-                    <td><?php echo $course['session_number']; ?></td>
-                    <td><?php echo $course['is_published']; ?></td>
-                    <td><?php echo $course['is_cancelled']; ?></td>
-                    <td><?php echo $course['is_master_teaching']; ?></td>
-                    <td><?php echo $course['is_lock_grade_update']; ?></td>
-                    <td><?php echo $course['enrolling_expiry_date']; ?></td>
-                    <td><?php echo $course['grade_update_expiry_date']; ?></td>
-                    <td><?php echo $course['status']; ?></td>
-                    <td><?php echo $course['created']; ?></td>
-                    <td><?php echo $course['modified']; ?></td>
-                    <td><?php echo $course['id']; ?></td>
-                    <td><?php echo $course['chapter_id']; ?></td>
-                    <td class="actions">
-                        <?php echo $this->Html->link(__('View'), array('controller' => 'courses', 'action' => 'view', $course['id'])); ?>
-                        <?php echo $this->Html->link(__('Edit'), array('controller' => 'courses', 'action' => 'edit', $course['id'])); ?>
-                        <?php echo $this->Form->postLink(__('Delete'), array('controller' => 'courses', 'action' => 'delete', $course['id']), null, __('Are you sure you want to delete # %s?', $course['id'])); ?>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        </table>
-    <?php endif; ?>
+<div class="col-lg-12 content-right">
+    <?php
+    $this->Html->addCrumb('Chuyên đề', '/fields_manager/chapters');
+    $this->Html->addCrumb('Thông tin chuyên đề/' . $chapter['Chapter']['name']);
+    ?>
+    <div class="col-md-12">
+        <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#thong_tin_chung">Thông tin</a></li>
+                <li class=""><a data-toggle="tab" href="#tai_lieu">Tài liệu</a></li>
+            </ul>
+            <div class="tab-content">
+                <div id="thong_tin_chung" class="tab-pane active">
+                    <div class="timeline-item">
+                        <span class="time"><i class="fa fa-clock-o"></i> Ngày tạo:<?php echo h($chapter['Chapter']['created']); ?></span>
+                        <h3 class="timeline-header"><?php echo h($chapter['Chapter']['name']); ?></h3>
+                        <div class="timeline-body">
+                            <?php echo ($chapter['Chapter']['decriptions']); ?>
+                        </div>
+                        <div class="timeline-footer">
+                            <?php
+                            echo $this->Html->link('<span class="glyphicon glyphicon-pencil"></span>', array('action' => 'edit', $chapter['Chapter']['id']), array('escape' => false,
+                                'class' => 'add-button btn btn-primary btn-xs fancybox.ajax', 'role' => 'button', 'div' => false));
+                            ?>
+                            <?php echo $this->Form->postLink('<span class="fa fa-trash-o"></span>', array('fields_manager' => false, 'controller' => 'chapters', 'action' => 'delete', $chapter['Chapter']['id']), array('class' => 'btn btn-danger btn-xs', 'escape' => false), __('Bạn chắc xóa chuyên đề %s?', $chapter['Chapter']['name'])); ?>
+                        </div>
+                    </div>
+                </div>
 
-    <div class="actions">
-        <ul>
-            <li><?php echo $this->Html->link(__('New Course'), array('controller' => 'courses', 'action' => 'add')); ?> </li>
-        </ul>
+                <div id="tai_lieu" class="tab-pane">
+                    <?php if (empty($chapter['TaiLieu'])): ?>
+                        Thêm tài liệu:
+                    <?php else: ?>
+                        <div class="table-responsive">
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            STT
+                                        </th>
+                                        <th>
+                                            Tên file
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <?php
+                                    $stt = 0;
+                                    foreach ($chapter['TaiLieu'] as $tailieu):
+                                        ?>
+                                        <tr>
+                                            <td><?php echo ++$stt ?></td>
+                                            <td><?php echo $this->Html->link($tailieu['attachment'], array('fields_manager'=>false,'action' => 'download', $tailieu['id'])); ?></td>
+                                        </tr>
+    <?php endforeach; ?>
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <?php //    debug($chapter['TaiLieu']); ?>
+<?php endif; ?>
+
+                </div>
+            </div>
+        </div>
     </div>
+
 </div>

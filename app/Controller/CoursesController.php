@@ -92,6 +92,27 @@ class CoursesController extends AppController {
         $this->set(compact('chapters', 'teachers'));
     }
 
+    /*     * Student */
+
+    public function student_view($id = null) {
+
+        if (!$this->Course->exists($id)) {
+            throw new NotFoundException(__('Invalid course'));
+        }
+        $contain = array(
+            'User' => array('fields' => array('id', 'name')),
+            'CoursesRoom' => array('conditions' => array('CoursesRoom.start is not null'),'order'=>array('CoursesRoom.priority'=>'ASC')),
+            'Teacher' => array('fields' => array('id', 'name', 'email', 'phone_number'), 'HocHam', 'HocVi'), 
+            'Chapter'
+        );
+        $options = array('conditions' => array('Course.' . $this->Course->primaryKey => $id), 'contain' => $contain);
+        //$rooms = $this->Course->CoursesRoom->Room->find('list');
+        $course = $this->Course->find('first', $options);
+        $this->set(compact('course'));
+    }
+
+    /* ket thuc vung sinh vien */
+
     /*     * Fields manager */
 
     public function fields_manager_view($id = null) {
@@ -101,7 +122,7 @@ class CoursesController extends AppController {
         }
         $contain = array(
             'User' => array('fields' => array('id', 'name')),
-            'CoursesRoom'=>array('Room'=>array('id','name'),'conditions'=>array('CoursesRoom.course_id' => $id, 'CoursesRoom.start is null')),
+            'CoursesRoom' => array('Room' => array('id', 'name'), 'conditions' => array('CoursesRoom.course_id' => $id, 'CoursesRoom.start is null')),
             'Teacher' => array('fields' => array('id', 'name', 'email', 'phone_number'), 'HocHam', 'HocVi'
             ), 'Chapter'
         );
