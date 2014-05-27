@@ -8,7 +8,7 @@ App::uses('AppController', 'Controller');
  */
 class DashboardsController extends AppController {
 
-    public $uses = array('User', 'Group', 'Course', 'Chapter','StudentsCourse','CoursesRoom','Room');
+    public $uses = array('User', 'Group', 'Course', 'Chapter', 'StudentsCourse', 'CoursesRoom', 'Room');
 
     public function home() {
         if ($this->Auth->loggedIn()) {
@@ -29,21 +29,30 @@ class DashboardsController extends AppController {
         $contain = array(
             'User' => array('fields' => array('id', 'name')), //create user
             'Teacher' => array('fields' => array('id', 'name')), //Teacher
-            'CoursesRoom'=>array('Room'=>array('id','name')),
+            'CoursesRoom' => array('Room' => array('id', 'name')),
             'StudentsCourse', //Khoa hoc
-            'Chapter'=>array('fields'=>array('id','name'))//Chuyen de
+            'Chapter' => array('fields' => array('id', 'name'))//Chuyen de
         );
-        //Lay danh muc cac khoa da dang ky
-        $khoa_da_dang_ky=$this->StudentsCourse->getEnrolledCourses($this->Auth->user('id'));
-        //$unenroll_courses=
-        
-        $conditions = array('NOT'=>array('Course.id'=>$khoa_da_dang_ky));        
-        $course_fields = array('id', 'name', 'chapter_id','max_enroll_number', 'enrolling_expiry_date', 'register_student_number','session_number' );
+        //Lay danh muc cac khoa chua dang ky
+        $khoa_da_dang_ky = $this->StudentsCourse->getEnrolledCourses($this->Auth->user('id'));
+        $conditions = array('NOT' => array('Course.id' => $khoa_da_dang_ky));
+        $course_fields = array('id', 'name', 'chapter_id', 'max_enroll_number', 'enrolling_expiry_date', 'register_student_number', 'session_number');
         $courses = $this->Course->find('all', array('conditions' => $conditions, 'contain' => $contain, 'fields' => $course_fields));
         //debug($courses);die;
         $fields = $this->Course->Chapter->Field->find('list');
         $chapters = $this->Course->Chapter->find('list');
-        $this->set(compact('fields', 'chapters','courses'));
+        $this->set(compact('fields', 'chapters', 'courses'));
+
+        //Lay danh muc cac khoa da dang ky
+        $khoa_da_dang_ky1 = $this->StudentsCourse->getEnrolledCourses($this->Auth->user('id'));
+        $conditions1 = array(array('Course.id' => $khoa_da_dang_ky1));
+        $rowcount = $this->Course->find('count', array('conditions' => $conditions1, 'contain' => $contain));
+      
+        $courses1 = $this->Course->find('all', array('conditions' => $conditions1, 'contain' => $contain));
+        //debug($courses);die;
+        $fields1 = $this->Course->Chapter->Field->find('list');
+        $chapters1 = $this->Course->Chapter->find('list');
+        $this->set(compact('fields1', 'chapters1', 'courses1', 'rowcount'));
     }
 
     public function teacher_home() {

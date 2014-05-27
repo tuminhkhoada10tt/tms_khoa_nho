@@ -12,7 +12,7 @@
             <ul class="nav navbar-nav">
                 <li class="active nav-item"><a href="/" >Trang chủ</a></li>
                 <li class="nav-item dropdown">
-                    <a class="dropdown-toggle" data-hover="dropdown" data-delay="0" data-close-others="false" href="#">Khóa học của tôi</a>
+                    <a class="dropdown-toggle" data-hover="dropdown" data-delay="0" data-close-others="false" href="/student/courses/index">Khóa học của tôi</a>
 
                 </li>
 

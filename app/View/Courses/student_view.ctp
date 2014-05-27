@@ -35,7 +35,8 @@
                                             <?php echo $course['Teacher']['HocVi']['name'] . ' '; ?>
 
                                         <?php endif; ?>
-                                        <?php echo $this->Html->link($course['Teacher']['name'], array('fields_manager' => true, 'controller' => 'users', 'action' => 'view', $course['Teacher']['id'])) ?>
+                                        <?php echo  $course['Teacher']['name'];
+                                        //echo $this->Html->link($course['Teacher']['name'], array('fields_manager' => true, 'controller' => 'users', 'action' => 'view', $course['Teacher']['id'])) ?>
 
                                     </td>
                                 </tr>
@@ -59,7 +60,8 @@
                                 <tr>
                                     <td>Chuyên đề</td>
                                     <td>                 
-                                        <?php echo $this->Html->link($course['Chapter']['name'], array('controller' => 'chapters', 'action' => 'view', $course['Chapter']['id'])); ?>
+                                        <?php echo  $course['Chapter']['name'];
+                                        //echo $this->Html->link($course['Chapter']['name'], array('controller' => 'chapters', 'action' => 'view', $course['Chapter']['id'])); ?>
                                     </td>
                                 </tr>
 
@@ -91,7 +93,7 @@
                                                             <tr>
                                                                 <td><?php echo ++$stt; ?></td>
                                                                 <td><?php echo $buoi['title']; ?></td>
-                                                                <td><?php $start= new DateTime($buoi['start']); echo $start->format('H:i, d - m - Y');?></td>
+                                                                <td><?php $start= new DateTime($buoi['start']); echo $start->format('H:i'); echo " Giờ, ";echo"Ngày: ";echo $start->format('d-m-Y');?></td>
                                                                 <td><?php echo $buoi['room']; ?></td>
                                                             </tr>
                                                         <?php endforeach; ?>
@@ -113,7 +115,7 @@
                                 <div class="well">
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <h4><a href="#"><?php echo $course['Teacher']['name'] ?></a></h4>
+                                            <h4><?php echo $course['Teacher']['name'] ?></h4>
                                             <span class="glyphicon glyphicon-envelope"></span> <br>
                                         </div>
                                     </div>

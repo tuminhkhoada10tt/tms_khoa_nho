@@ -33,6 +33,27 @@ class CoursesController extends AppController {
         $this->set('courses', $this->Paginator->paginate());
     }
 
+    public function student_index() {
+        
+        $contain = array(
+            'User' => array('fields' => array('id', 'name')), //create user
+            'Teacher' => array('fields' => array('id', 'name')), //Teacher
+            'CoursesRoom' => array('Room' => array('id', 'name')),
+            'StudentsCourse', //Khoa hoc
+            'Chapter' => array('fields' => array('id', 'name'))//Chuyen de
+        );
+        $loggin_id = $this->Auth->user('id');
+        $khoa_da_dang_ky1 = $this->Course->StudentsCourse->getEnrolledCourses($loggin_id);
+        //debug($khoa_da_dang_ky1);die;
+        $conditions1 = array('Course.id' => $khoa_da_dang_ky1);
+      
+        $courses1 = $this->Course->find('all', array('conditions' => $conditions1, 'contain' => $contain));
+        //debug($courses1);die;
+       
+        $this->set(compact('courses1'));
+        $this->set('courses1', $this->Paginator->paginate());
+    }
+
     public function new_courses() {
         if ($this->Auth->loggedIn()) {
             $user = $this->Course->User->find('first', array('contain' => array('Group'), 'conditions' => array('User.id' => $this->Auth->user('id'))));
@@ -101,8 +122,8 @@ class CoursesController extends AppController {
         }
         $contain = array(
             'User' => array('fields' => array('id', 'name')),
-            'CoursesRoom' => array('conditions' => array('CoursesRoom.start is not null'),'order'=>array('CoursesRoom.priority'=>'ASC')),
-            'Teacher' => array('fields' => array('id', 'name', 'email', 'phone_number'), 'HocHam', 'HocVi'), 
+            'CoursesRoom' => array('conditions' => array('CoursesRoom.start is not null'), 'order' => array('CoursesRoom.priority' => 'ASC')),
+            'Teacher' => array('fields' => array('id', 'name', 'email', 'phone_number'), 'HocHam', 'HocVi'),
             'Chapter'
         );
         $options = array('conditions' => array('Course.' . $this->Course->primaryKey => $id), 'contain' => $contain);
